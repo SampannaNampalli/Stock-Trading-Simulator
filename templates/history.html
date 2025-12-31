@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+
+    History
+
+{% endblock %}
+
+{% block main %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-start">Symbol</th>
+            <th class="text-end">Shares</th>
+            <th class="text-end">Price</th>
+            <th class="text-end">Transacted</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for dictionary in history %}
+                <tr>
+                    <td class="text-start">{{ dictionary["symbol"] }}</td>
+                    <td class="text-end">{{ dictionary["shares"] }}</td>
+                    <td class="text-end">{{ quotes[dictionary["symbol"]] | usd }}</td>
+                    <td class="text-end">{{ dictionary["timestamp"] }}</td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
