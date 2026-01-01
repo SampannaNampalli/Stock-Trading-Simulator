@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -16,10 +17,18 @@ app.jinja_env.filters["usd"] = usd
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+# Store session files in a writable temp directory for serverless platforms
+app.config["SESSION_FILE_DIR"] = tempfile.mkdtemp()
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db_url = os.getenv("DATABASE_URL")
+
+# Ensure SSL for managed Postgres providers like Neon if not explicitly set
+if db_url and db_url.startswith(("postgres://", "postgresql://")) and "sslmode=" not in db_url:
+    db_url = f"{db_url}{'&' if '?' in db_url else '?'}sslmode=require"
+
+db = SQL(db_url) if db_url else SQL("sqlite:///finance.db")
 
 
 @app.after_request
