@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# Virtual environments
+.venv/
+
+# Flask session data and local databases
+flask_session/
+*.db
+
+# Environment variables and secrets
+.env
+
+# Logs
+*.log
+
+# IDE/project settings
+.vscode/
+.idea/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
